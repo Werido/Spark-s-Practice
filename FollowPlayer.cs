@@ -6,12 +6,18 @@ public class FollowPlayer : MonoBehaviour
     private Transform player;
     public float speed = 2; //相机移动速度
     public AudioClip victorClip;
-    public static FollowPlayer _instance;
-
+    private static FollowPlayer _instance;
+    public static FollowPlayer instance()
+    {
+        if (_instance == null)
+        {
+            _instance = new FollowPlayer();
+        }
+        return _instance;
+    }
     void Awake()
     {
         _instance = this;
-        //DontDestroyOnLoad(this);
     }
     void Start()
     {

@@ -84,7 +84,7 @@ public class SpawnMgr : MonoBehaviour
         {
             yield return new WaitForSeconds(0.2f);
         }
-        FollowPlayer._instance.VictorSound();
+        FollowPlayer.instance().VictorSound();
         int temp = PlayerPrefs.GetInt("LevelPass");
         PlayerPrefs.SetInt("LevelPass",++temp);
         NextInterface.SetActive(true);

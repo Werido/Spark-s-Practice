@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class PlayerAword : MonoBehaviour
 {
@@ -11,8 +12,7 @@ public class PlayerAword : MonoBehaviour
     public GameObject DualSwordGo;
     public GameObject GunGo;
 
-
-
+    //奖励使用时间倒计时
     void Update()
     {
         if (dualSwordTimer > 0)
@@ -32,6 +32,7 @@ public class PlayerAword : MonoBehaviour
             }
         }
     }
+    //获取奖励
     public void GetAward(AwardType type)
     {
         if (type == AwardType.DualSword)
@@ -44,6 +45,8 @@ public class PlayerAword : MonoBehaviour
         }
     }
 
+
+    //切换到双刃剑
     void TurnToDualSword()
     {
         DualSwordGo.SetActive(true);
@@ -54,6 +57,7 @@ public class PlayerAword : MonoBehaviour
         UIAttack._instance.TurnToTwoAttack();
     }
 
+    //切换到枪
     void TurnToGun()
     {
         GunGo.SetActive(true);
@@ -65,6 +69,7 @@ public class PlayerAword : MonoBehaviour
 
     }
 
+    //切换到剑
     void TurnToSingSword()
     {
         dualSwordTimer = 0;

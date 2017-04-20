@@ -10,7 +10,7 @@ public class SceneLoading : MonoBehaviour {
     private AsyncOperation async;
 
     void Start () {
-        StartCoroutine(LoadScene(LevelSelect.LevelIndex));
+        StartCoroutine(LoadScene(LevelSelect.instance().LevelIndex));
         //预设加载完成后才设置
         mSlider.value = 0;
         SetLabelInfo(mSlider.GetComponent<UISlider>().value);

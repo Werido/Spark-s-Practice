@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+//奖励类型枚举
 public enum AwardType
 {
     Gun,
@@ -7,29 +9,30 @@ public enum AwardType
 }
 public class AwardItem : MonoBehaviour
 {
+    private static AwardItem _instance;
+    public static AwardItem instance()
+    {
+        if (_instance == null)
+        {
+            _instance = new AwardItem();
+        }
+        return _instance;
+    }
+    //开始移动的信号值
     private bool startMove = false;
     private Transform Player;
-
+    //奖励移动速度
     public float speed = 8;
     public AwardType type;
     public AudioClip PickUpClip;
 
-	// Use this for initialization
-   
-	void Start () {
-	    //if (this.tag == "ItemSword")
-	    //{
-	    //    this.type = AwardType.DualSword;
-	    //}
-	    //else
-	    //{
-	    //    this.type = AwardType.Gun;
-	    //}
+    void Start () {
+        //随机在某个方向以某个速度移动
 	    GetComponent<Rigidbody>().velocity = 
-            new Vector3(Random.Range(-5,5),0,Random.Range(-5,5));
+            new Vector3(UnityEngine.Random.Range(-5,5),0, UnityEngine.Random.Range(-5,5));
 	}
-	
-	// Update is called once per frame
+
+    //玩家从奖励物品附近经过，向玩家方向移动
 	void Update () {
 	    if (startMove)
 	    {
@@ -45,6 +48,7 @@ public class AwardItem : MonoBehaviour
         }
 	}
 
+    //落地后不再有重力学效应
     void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.tag == TagMgr.Ground)
@@ -66,6 +70,5 @@ public class AwardItem : MonoBehaviour
             startMove = true;
             Player = collider.transform;
         }
-
     }
 }

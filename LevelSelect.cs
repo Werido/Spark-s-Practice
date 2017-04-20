@@ -6,10 +6,18 @@ public class LevelSelect : MonoBehaviour
 {
     public GameObject[] LevelObjects;
     private static int levelIndex = 10;
-    //public static int LevelPass = 1;
-    
+    private static LevelSelect _instance;
+    public static LevelSelect instance()
+    {
+        if (_instance == null)
+        {
+            _instance = new LevelSelect();
+        }
+        return _instance;
+    }
 
-    public static int LevelIndex
+    //获取关卡信息
+    public int LevelIndex
     {
         get
         {
@@ -21,7 +29,7 @@ public class LevelSelect : MonoBehaviour
         }
     }
 
-    // Use this for initialization
+    //遍历关卡通关数据,初始化UI显示
     void Start () {
         if (PlayerPrefs.HasKey("LevelPass") == false)
         {
@@ -29,18 +37,12 @@ public class LevelSelect : MonoBehaviour
         }
         for (int i =0;i<PlayerPrefs.GetInt("LevelPass");i++)
         {
-            //E1C896FF
             LevelObjects[i].GetComponent<UISprite>().color = new Color(1, 1, 1); ;
             LevelObjects[i].GetComponent<BoxCollider>().enabled = true;
             LevelObjects[i].transform.parent.FindChild("Forbid").GetComponent<UISprite>().enabled = false;
         }
 	}
-	
-	// Update is called once per frame  
-	void Update () {
-	
-	}
-
+    #region 设置选择的关卡索引
     public void ButtonLevel1()
     {
         levelIndex = 3;
@@ -65,11 +67,14 @@ public class LevelSelect : MonoBehaviour
     {
         levelIndex = 8;
     }
+    #endregion
 
+    //返回主菜单
     public void Return()
     {
         SceneManager.LoadScene(0);
     }
+    //进入异步加载界面
     public void Load()
     {
         SceneManager.LoadScene(2);
