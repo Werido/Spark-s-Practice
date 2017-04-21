@@ -9,13 +9,12 @@ public class ChatCameraContorller : MonoBehaviour {
 
     public float enemyQuatrenion;
     public Vector3 enemyOffsetVector;
-    // Use this for initialization
+
     void Start () {
         transform.rotation = Quaternion.Euler(0, playerQuatrenion, 0);
         transform.position = playerOffsetVector;
     }
 	
-	// Update is called once per frame
 	void Update () {
         if(ChatTextController.index%2 == 0)
         {

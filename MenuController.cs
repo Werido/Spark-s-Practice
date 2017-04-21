@@ -37,9 +37,6 @@ public class MenuController : MonoBehaviour
     void Awake()
     {
         _instance = this;
-        //PlayerPrefs.SetInt("LevelPass",)
-        //if (PlayerPrefs.("LevelPass"))
-
     }
 
     
@@ -140,7 +137,7 @@ public class MenuController : MonoBehaviour
     }
     #endregion
 
-    #region 保存角色信息并加载游戏场景
+    #region 保存角色信息并跳转到关卡选择场景
     public void OnPlay()
     {
         Save();

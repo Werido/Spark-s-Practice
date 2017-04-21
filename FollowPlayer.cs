@@ -15,10 +15,7 @@ public class FollowPlayer : MonoBehaviour
         }
         return _instance;
     }
-    void Awake()
-    {
-        _instance = this;
-    }
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag(TagMgr.Player).transform;

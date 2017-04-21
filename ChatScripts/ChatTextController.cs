@@ -12,7 +12,6 @@ public class ChatTextController : MonoBehaviour {
     public GameObject joysttick;
     public GameObject attack;
 
-    // Use this for initialization
     void Start () {
         chatText.text = mData[index];
         index++;
@@ -21,7 +20,6 @@ public class ChatTextController : MonoBehaviour {
         attack.SetActive(false);;
     }
 	
-	// Update is called once per frame
 	void Update () {
 
         if (Input.GetMouseButtonDown(0))

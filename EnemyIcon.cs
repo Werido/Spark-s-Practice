@@ -5,7 +5,8 @@ public class EnemyIcon : MonoBehaviour
 {
     private Transform icon;
     private Transform player;
-	// Use this for initialization
+
+    //根据角色类型获取对应小地图标识
 	void Start () {
 	    if (this.tag == TagMgr.SoulBoss)
 	    {
@@ -18,7 +19,7 @@ public class EnemyIcon : MonoBehaviour
 	    player = GameObject.FindGameObjectWithTag(TagMgr.Player).transform;
 	}
 	
-	// Update is called once per frame
+    //根据AI与角色的位置偏移量设置图标在小地图的坐标
 	void Update ()
 	{
 	    Vector3 offset = transform.position - player.position;

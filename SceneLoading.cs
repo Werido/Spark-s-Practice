@@ -9,6 +9,7 @@ public class SceneLoading : MonoBehaviour {
     // 异步对象
     private AsyncOperation async;
 
+    //开始预加载玩家选择的关卡资源
     void Start () {
         StartCoroutine(LoadScene(LevelSelect.instance().LevelIndex));
         //预设加载完成后才设置
@@ -16,10 +17,9 @@ public class SceneLoading : MonoBehaviour {
         SetLabelInfo(mSlider.GetComponent<UISlider>().value);
     }
 	
-
+    //更新进度值
 	void LateUpdate () {
         mSlider.value = async.progress;
-        print(mSlider.value);
         SetLabelInfo(mSlider.value);
     }
 
@@ -34,6 +34,7 @@ public class SceneLoading : MonoBehaviour {
         Destroy(this.gameObject);
     }
 
+    //设置进度文本值
     void SetLabelInfo(float value)
     {
         if (mLabell != null)
