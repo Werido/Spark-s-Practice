@@ -58,9 +58,9 @@ public class SoulMoster : MonoBehaviour
         }
 	    else//对目标进行跟踪
 	    {
-            //Monster如果正在攻击时间，不允许移动  
-	        if (animator.GetCurrentAnimatorStateInfo(0).IsName("MonRun"))
-	        {
+            //Monster如果正在攻击时间，不允许移动  ，不同AI状态名字要统一，否则判定不过
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("MonRun"))
+            {
                 agent.SetDestination(Player.transform.position);
             }
             animator.SetBool("Walk", true);
