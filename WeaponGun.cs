@@ -11,7 +11,10 @@ public class WeaponGun : MonoBehaviour
     //实例化子弹
     public void Shot()
     {
-        GameObject go = GameObject.Instantiate(BulletPrefab, bulletPos.position, transform.root.rotation)as GameObject;
-        go.GetComponent<Bullet>().attack = attack;
+        if (BulletPrefab != null)
+        {
+            GameObject go = GameObject.Instantiate(BulletPrefab, bulletPos.position, transform.root.rotation) as GameObject;
+            go.GetComponent<Bullet>().attack = attack;
+        }
     }
 }

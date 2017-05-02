@@ -1,12 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
+public enum AttackType
+{
+    NORMAL,
+    DOUBLE,
+    SKILL,
+}
 public class PlayerAtkAndDamage : ATKandDamage
 {
     public float attackB = 80;
     public float attackRange = 100;
     public float attackgun = 100;
+    public float delatResponTime = 2f;
    
 
     public WeaponGun gun;
@@ -17,10 +25,18 @@ public class PlayerAtkAndDamage : ATKandDamage
     //TODO 清除攻击缓存
     public void ResetTrigger()
     {
-        
+        _animator.ResetTrigger("Use_3");
     }
 
-
+    public void getHealth()
+    {
+        hp += 100;
+        PlayerHpSlider.value = hp / hptotal;
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Use_3"))
+            _animator.SetTrigger("Use_3");
+        else
+            _animator.ResetTrigger("Use_3");
+    }
     //判定最近的敌人
     GameObject RecentEnemy(float Distance)
     {
@@ -69,14 +85,18 @@ public class PlayerAtkAndDamage : ATKandDamage
 
     public void AttackA()
     {
-        AudioSource.PlayClipAtPoint(SwardClip,transform.position,1f);
+        gun.attack = attackgun;
+        gun.Shot();
+        if (SwardClip!=null)
+            AudioSource.PlayClipAtPoint(SwardClip,transform.position,1f);
         GameObject enemy = RecentEnemy(attackDistance);
         Changedirection(enemy,normalAttack);
     }
 
     public void AttackB()
     {
-        AudioSource.PlayClipAtPoint(SwardClip, transform.position, 1f);
+        if(SwardClip!=null)
+            AudioSource.PlayClipAtPoint(SwardClip, transform.position, 1f);
         GameObject enemy = RecentEnemy(attackDistance);
         Changedirection(enemy,attackB);
     }
@@ -93,7 +113,6 @@ public class PlayerAtkAndDamage : ATKandDamage
             {
                 //将符合情况的敌人放进新列表而不是直接处理，否则遍历的数组就发生了变化
                 enemyList.Add(go);
-                //go.GetComponent<ATKandDamage>().TakeDamage(attackRange);
             }
         }
         //不能遍历中修改或移除数据
@@ -101,6 +120,30 @@ public class PlayerAtkAndDamage : ATKandDamage
         {
             go.GetComponent<ATKandDamage>().TakeDamage(attackRange);
         }
+    }
+
+
+    public void AnimationAttack(AttackType _AttackType)
+    {
+        StartCoroutine(attackResponse(_AttackType,delatResponTime));
+    }
+    IEnumerator attackResponse(AttackType _AttackType,float _responseTime)
+    {
+        _responseTime -= Time.unscaledDeltaTime;
+
+        if (_responseTime > 0)
+            yield return 0;
+        if (_AttackType == AttackType.NORMAL)
+            AttackA();
+        else if (_AttackType == AttackType.DOUBLE)
+            AttackB();
+        else
+            Skill();
+    }
+
+    private void Skill()
+    {
+        GameObject.Instantiate(Resources.Load("SkillEffect"), transform.position + Vector3.up, transform.rotation);
     }
 
     public void AttackGun()

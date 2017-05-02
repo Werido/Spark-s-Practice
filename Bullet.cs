@@ -15,8 +15,11 @@ public class Bullet : MonoBehaviour
 	
     //匀速运动
 	void Update () {
-	    transform.Translate(Vector3.forward*speed*Time.deltaTime);
-	}
+
+        transform.Translate(GameObject.FindGameObjectWithTag(TagMgr.Player).transform.forward* speed*Time.deltaTime);
+        Debug.LogWarning(transform.forward == GameObject.FindGameObjectWithTag(TagMgr.Player).transform.forward);
+
+    }
     #endregion
 
     #region 子弹伤害触发

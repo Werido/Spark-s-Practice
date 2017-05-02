@@ -35,9 +35,10 @@ public class LevelSelect : MonoBehaviour
         {
             PlayerPrefs.SetInt("LevelPass",1);
         }
+        Debug.LogWarning(PlayerPrefs.GetInt("LevelPass"));
         for (int i =0;i<PlayerPrefs.GetInt("LevelPass");i++)
         {
-            LevelObjects[i].GetComponent<UISprite>().color = new Color(1, 1, 1); ;
+            LevelObjects[i].GetComponent<UISprite>().color = new Color(1, 1, 1);
             LevelObjects[i].GetComponent<BoxCollider>().enabled = true;
             LevelObjects[i].transform.parent.FindChild("Forbid").GetComponent<UISprite>().enabled = false;
         }

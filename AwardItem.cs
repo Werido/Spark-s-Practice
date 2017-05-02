@@ -1,12 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-//奖励类型枚举
-public enum AwardType
-{
-    Gun,
-    DualSword
-}
+
 public class AwardItem : MonoBehaviour
 {
     private static AwardItem _instance;

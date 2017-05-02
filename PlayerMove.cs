@@ -3,20 +3,23 @@ using System.Collections;
 
 public class PlayerMove : MonoBehaviour
 {
+    public static PlayerMove _instance;
     private CharacterController cc;
     public float speed = 4;
     private Animator animator;
+    private Vector3 targetDir;
+    public Vector3 _targetDir { get { return targetDir; } }
 
     #region 角色移动控制
     void Awake()
     {
         cc = this.GetComponent<CharacterController>();
         animator = this.GetComponent<Animator>();
+        _instance = this;
     }
 
     void Update()
     {
-
         //获取x,y方向的偏移值
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
@@ -35,7 +38,7 @@ public class PlayerMove : MonoBehaviour
             //播放行走动画时才产生移动，否则移动动画和攻击动画会重合
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerRun"))
             {
-                Vector3 targetDir = new Vector3(h, 0, v);
+                targetDir = new Vector3(h, 0, v);
                 transform.LookAt(targetDir + transform.position);
                 cc.SimpleMove(transform.forward * speed);
             }

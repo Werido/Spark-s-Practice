@@ -5,7 +5,8 @@ public class SoulMoster : MonoBehaviour
 {
 
     private PlayerAtkAndDamage playerAtkAndDamage;
-    private Transform Player;
+    private SoulMonsterAtkAndDamage monsterAtkAndDamage;
+    public Transform Player;
     public float attackDistance = 1;  //这个是攻击距离
     //public float speed = 2.5f;  //移动速度
    // private CharacterController cc;
@@ -19,6 +20,7 @@ public class SoulMoster : MonoBehaviour
         //获取角色位置及血量信息
         Player = GameObject.FindGameObjectWithTag(TagMgr.Player).transform;
         playerAtkAndDamage = Player.GetComponent<PlayerAtkAndDamage>();
+        monsterAtkAndDamage = this.GetComponent<SoulMonsterAtkAndDamage>();
 
         //获取自身控制器及状态机
         //cc = this.GetComponent<CharacterController>();
@@ -30,12 +32,13 @@ public class SoulMoster : MonoBehaviour
 	void Update ()
 	{
         //角色死亡后小怪停止运动
-	    if (playerAtkAndDamage.hp <= 0)
-	    {
-            animator.SetBool("Walk",false);
-	        return;
-	    }
-	    Vector3 targetPos = Player.position;
+        if (playerAtkAndDamage.hp <= 0)
+        {
+            animator.SetBool("Walk", false);
+            return;
+        }
+        Vector3 targetPos = Player.position;
+
         //保证Monster永远面朝主角，并且是在xy这个平面旋转，与y无关
         targetPos.y = transform.position.y;
         transform.LookAt(targetPos);
@@ -48,6 +51,7 @@ public class SoulMoster : MonoBehaviour
             if (attcktTimer>attackTime)//达到攻击事件
             {
                 animator.SetTrigger("Attack");
+                monsterAtkAndDamage.AnimationAttack();
                 attcktTimer = 0;
             }
             else
@@ -59,11 +63,11 @@ public class SoulMoster : MonoBehaviour
 	    else//对目标进行跟踪
 	    {
             //Monster如果正在攻击时间，不允许移动  ，不同AI状态名字要统一，否则判定不过
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("MonRun"))
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
             {
                 agent.SetDestination(Player.transform.position);
             }
-            animator.SetBool("Walk", true);
+        animator.SetBool("Walk", true);
             //保证每次移动到主角身边时都会立马进行攻击
             attcktTimer = 4;
         }

@@ -2,81 +2,69 @@
 using System.Collections;
 using System;
 
+//奖励类型枚举
+public enum AwardType
+{
+    Blood,
+    CD,
+    MOVE,
+}
+
 public class PlayerAword : MonoBehaviour
 {
-    //奖励武器存在的时间
+    //奖励存在的时间
     public float ExitTime = 10;
-    public float dualSwordTimer = 0;
-    public float GunTimer = 0;
-    public GameObject singleSwordGo;
-    public GameObject DualSwordGo;
-    public GameObject GunGo;
 
     //奖励使用时间倒计时
     void Update()
     {
-        if (dualSwordTimer > 0)
+        if (ExitTime > 0)
         {
-            dualSwordTimer -= Time.deltaTime;
-            if (dualSwordTimer<0)
+            ExitTime -= Time.deltaTime;
+            if (ExitTime < 0)
             {
-                TurnToSingSword();
-            }
-        }
-        if(GunTimer>0)
-        {
-            GunTimer -= Time.deltaTime;
-            if (GunTimer < 0)
-            {
-                TurnToSingSword();  
+                setSpeedBack();
             }
         }
     }
+
     //获取奖励
     public void GetAward(AwardType type)
     {
-        if (type == AwardType.DualSword)
+        if (type == AwardType.Blood)
         {
-            TurnToDualSword();
+            PlayerHeal();
         }
-        else if(type == AwardType.Gun)
+        else if (type == AwardType.CD)
         {
-            TurnToGun();
+            RemoveCDtime();
         }
+        else
+            changeMoveSpeed();
     }
 
-
-    //切换到双刃剑
-    void TurnToDualSword()
+    //回复初始速度
+    void setSpeedBack()
     {
-        DualSwordGo.SetActive(true);
-        singleSwordGo.SetActive(false);
-        GunGo.SetActive(false);
-        dualSwordTimer = ExitTime;
-        GunTimer = 0;
-        UIAttack._instance.TurnToTwoAttack();
+        PlayerMove._instance.speed -= 1.5f;
     }
 
-    //切换到枪
-    void TurnToGun()
+    //加速
+    void changeMoveSpeed()
     {
-        GunGo.SetActive(true);
-        singleSwordGo.SetActive(false);
-        DualSwordGo.SetActive(false);
-        GunTimer = ExitTime;
-        dualSwordTimer = 0;
-        UIAttack._instance.TurnToOneAttack();
-
+        PlayerMove._instance.speed += 1.5f;
     }
 
-    //切换到剑
-    void TurnToSingSword()
+    //加血
+    void PlayerHeal()
     {
-        dualSwordTimer = 0;
-        GunTimer = 0;
-        singleSwordGo.SetActive(true);
-        GunGo.SetActive(false);
-        DualSwordGo.SetActive(false);
-        UIAttack._instance.TurnToTwoAttack();
+        GameObject.FindGameObjectWithTag(TagMgr.Player).GetComponent<PlayerAtkAndDamage>().getHealth();
+        ExitTime = 0;
+    }
+
+    //减少CD
+    void RemoveCDtime()
+    {
+        //TODO
     }
 }

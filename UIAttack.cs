@@ -7,6 +7,7 @@ public class UIAttack : MonoBehaviour
     public GameObject normalAttack;
     public GameObject rangeAttack;
     public GameObject redAttack;
+    PlayerAtkAndDamage playerAtk;
 
     private Animator animator;
     private bool isCanAttackB;
@@ -17,6 +18,7 @@ public class UIAttack : MonoBehaviour
     //为攻击按钮绑定监听方法
     void Start()
     {
+        playerAtk = GameObject.FindGameObjectWithTag(TagMgr.Player).GetComponent<PlayerAtkAndDamage>();
         animator = GameObject.FindGameObjectWithTag(TagMgr.Player).GetComponent<Animator>();
         //将当前脚本的点击事件处理方法放到OnClick事件触发列表中
         EventDelegate NormalAttackEvent = new EventDelegate(this, "OnNormalAttackClick");
@@ -27,53 +29,36 @@ public class UIAttack : MonoBehaviour
 
         GameObject Redattack = GameObject.Find("RedAttack");
         EventDelegate RedAttackEvent = new EventDelegate(this, "OnRedAttackClick");
-        Redattack.GetComponent<UIButton>().onClick.Add(RedAttackEvent);
-        Redattack.gameObject.SetActive(false);
+        GameObject.Find("RedAttack").GetComponent<UIButton>().onClick.Add(RedAttackEvent);
 
     }
     #endregion
 
     #region 角色战斗动画处理
 
-    public void OnNormalAttackClick()
-    {
-        animator.speed = 1.4f;//动画加速
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAttackA"))
-        {
-            animator.SetTrigger("AttackA");
-        }
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAttackA")
-    && isCanAttackB)
-        {
-            animator.SetTrigger("AttackB");
-        }
-        animator.speed = 1f;
-    }
-
     public void OnRangeAttackClick()
     {
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAttackRange"))
-        {
-            animator.SetTrigger("AttackRange");
-        }
+        Debug.LogWarning("222");
     }
 
+    public void OnNormalAttackClick()
+    {
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("AttackA"))
+        {
+            animator.SetTrigger("Attack_1");
+            playerAtk.AnimationAttack(AttackType.NORMAL);
+        }else
+            animator.ResetTrigger("Attack_1");
+    }
+     
     public void OnRedAttackClick()
     {
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAttackGun"))
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("AttackB"))
         {
-            animator.SetTrigger("AttackGun");
-        }
-    }
-
-    public void AttackBEvent1()
-    {
-        isCanAttackB = true;
-    }
-
-    public void AttackBEvent2()
-    {
-        isCanAttackB = false;
+            animator.SetTrigger("Attack_2");
+            playerAtk.AnimationAttack(AttackType.DOUBLE);
+        }else
+            animator.ResetTrigger("Attack_2");
     }
 
     #endregion
@@ -94,6 +79,6 @@ public class UIAttack : MonoBehaviour
     {
         normalAttack.SetActive(true);
         rangeAttack.SetActive(true);
-        redAttack.SetActive(false);
+        redAttack.SetActive(true);
     }
 }

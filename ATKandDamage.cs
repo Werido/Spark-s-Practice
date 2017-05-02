@@ -24,6 +24,8 @@ public class ATKandDamage : MonoBehaviour
     private bool SoundIsPlay = false;
     private int hpTotal;
 
+    public Animator _animator { get { return animator; } }
+    public int hptotal { get { return hpTotal; } }
     //获取animator组件
     protected void Awake()
     {
@@ -37,7 +39,6 @@ public class ATKandDamage : MonoBehaviour
 
     private void SoundAndAnimator()
     {
-        //AudioSource.PlayClipAtPoint(DeathClip, transform.position, 1f);
         animator.SetTrigger("Dead");
     }
     public virtual void TakeDamage(float damage)
@@ -117,22 +118,26 @@ public class ATKandDamage : MonoBehaviour
     }
     void SpawnAward()
     {
-        //生成1-2个奖励
-        int count = Random.Range(1, 3);
-        for (int i = 0; i < count; i++)  
+        //根据随机数判断是否生成奖励
+        int count = Random.Range(0, 3);
+        if (count == 0)
+            return;
+
+        int index = Random.Range(0, 3);
+        if (index == 1)
         {
-           
-            int index = Random.Range(0, 2);
-            if (index == 1)
-            {
-                GameObject.Instantiate(Resources.Load("Item-DualSword"), transform.position + Vector3.up,
-                    Quaternion.identity);
-            }
-            else if(index == 0)
-            {
-                GameObject.Instantiate(Resources.Load("Item-DualGun"), transform.position + Vector3.up,
-                    Quaternion.identity);
-            }
+            GameObject.Instantiate(Resources.Load("ItemCD"), transform.position + Vector3.up,
+                Quaternion.identity);
+        }
+        else if (index == 0)
+        {
+            GameObject.Instantiate(Resources.Load("ItemHeath"), transform.position + Vector3.up,
+                Quaternion.identity);
+        }
+        else
+        {
+            GameObject.Instantiate(Resources.Load("ItemMove"), transform.position + Vector3.up,
+                Quaternion.identity);
         }
     }
     #endregion
