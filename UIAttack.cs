@@ -38,7 +38,7 @@ public class UIAttack : MonoBehaviour
 
     public void OnRangeAttackClick()
     {
-        Debug.LogWarning("222");
+        playerAtk.AnimationAttack(AttackType.SKILL);
     }
 
     public void OnNormalAttackClick()

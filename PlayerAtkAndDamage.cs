@@ -12,7 +12,7 @@ public enum AttackType
 public class PlayerAtkAndDamage : ATKandDamage
 {
     public float attackB = 80;
-    public float attackRange = 100;
+    public float skillDamage = 100;
     public float attackgun = 100;
     public float delatResponTime = 2f;
    
@@ -20,8 +20,27 @@ public class PlayerAtkAndDamage : ATKandDamage
     public WeaponGun gun;
     public AudioClip ShotClip;
     public AudioClip SwardClip;
+    private float skillCDTime = 15f;
+    private float deltaTime = 0f;
 
     #region 战斗相关
+    void Update()
+    {
+        Debug.LogWarning(deltaTime);
+        if (deltaTime > 0)
+            deltaTime -= Time.deltaTime;
+
+        if (deltaTime < 0)
+            deltaTime = 0;
+    }
+
+    public void setDeltaTime()
+    {
+        deltaTime -= 2f;
+        if (deltaTime < 0)
+            deltaTime = 0;
+    }
+
     //TODO 清除攻击缓存
     public void ResetTrigger()
     {
@@ -103,7 +122,7 @@ public class PlayerAtkAndDamage : ATKandDamage
 
     public void AttackRange()
     {
-        AudioSource.PlayClipAtPoint(SwardClip, transform.position, 1f);
+        //AudioSource.PlayClipAtPoint(SwardClip, transform.position, 1f);
         List<GameObject> enemyList = new List<GameObject>();
         //遍历攻击范围内的敌人并造成伤害
         foreach (GameObject go in SpawnMgr._instance.EnemyList)
@@ -118,7 +137,7 @@ public class PlayerAtkAndDamage : ATKandDamage
         //不能遍历中修改或移除数据
         foreach (GameObject go in enemyList)
         {
-            go.GetComponent<ATKandDamage>().TakeDamage(attackRange);
+            go.GetComponent<ATKandDamage>().TakeDamage(skillDamage);
         }
     }
 
@@ -143,7 +162,16 @@ public class PlayerAtkAndDamage : ATKandDamage
 
     private void Skill()
     {
+        if (deltaTime != 0)
+        {
+            Debug.LogWarning("技能冷却未完成，CD时间："+ deltaTime);
+            return;
+        }
+        setDeltaTime();
         GameObject.Instantiate(Resources.Load("SkillEffect"), transform.position + Vector3.up, transform.rotation);
+        AttackRange();
+        deltaTime = skillCDTime;
+
     }
 
     public void AttackGun()

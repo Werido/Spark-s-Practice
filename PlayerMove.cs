@@ -5,7 +5,7 @@ public class PlayerMove : MonoBehaviour
 {
     public static PlayerMove _instance;
     private CharacterController cc;
-    public float speed = 4;
+    public float speed = 5;
     private Animator animator;
     private Vector3 targetDir;
     public Vector3 _targetDir { get { return targetDir; } }
