@@ -11,5 +11,7 @@ public class setPlayer : MonoBehaviour {
 
         gostructs[goindex].go.SetActive(true);
         gostructs[goindex].character[characterIndex].SetActive(true);
+        gostructs[goindex].character[characterIndex].transform.parent = null;
+        DestroyObject(this.transform.gameObject);
         }
 }

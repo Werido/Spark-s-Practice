@@ -26,7 +26,6 @@ public class PlayerAtkAndDamage : ATKandDamage
     #region 战斗相关
     void Update()
     {
-        Debug.LogWarning(deltaTime);
         if (deltaTime > 0)
             deltaTime -= Time.deltaTime;
 
@@ -104,12 +103,23 @@ public class PlayerAtkAndDamage : ATKandDamage
 
     public void AttackA()
     {
-        gun.attack = attackgun;
-        gun.Shot();
+        if (gun != null)
+        {
+            gun.attack = attackgun;
+            gun.Shot();
+            GameObject enemy = RecentEnemy(attackDistance);
+            Changedirection(enemy, normalAttack);
+        }
+        else
+        {
+            GameObject enemy = RecentEnemy(attackDistance);
+            Changedirection(enemy, normalAttack);
+        }
+
+
         if (SwardClip!=null)
             AudioSource.PlayClipAtPoint(SwardClip,transform.position,1f);
-        GameObject enemy = RecentEnemy(attackDistance);
-        Changedirection(enemy,normalAttack);
+
     }
 
     public void AttackB()

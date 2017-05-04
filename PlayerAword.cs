@@ -65,6 +65,6 @@ public class PlayerAword : MonoBehaviour
     //减少CD
     void RemoveCDtime()
     {
-        //TODO
+        GameObject.FindGameObjectWithTag(TagMgr.Player).GetComponent<PlayerAtkAndDamage>().setDeltaTime();
     }
 }
