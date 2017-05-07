@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ATKandDamage : MonoBehaviour
 {
-
+    public enemyType type;
     public float hp = 100;
     public float normalAttack = 50;
     public float attackDistance = 1;
@@ -24,6 +24,7 @@ public class ATKandDamage : MonoBehaviour
     private bool SoundIsPlay = false;
     private int hpTotal;
 
+    public int getScore { get { return Score; } }
     public Animator _animator { get { return animator; } }
     public int hptotal { get { return hpTotal; } }
     //获取animator组件
@@ -90,7 +91,11 @@ public class ATKandDamage : MonoBehaviour
                 SpawnAward();
                 //得分累加
                 Score += ScoreAward();
-                Destroy(this.gameObject, 1);
+
+                //此处要改成放回缓存池
+                StartCoroutine(pushBack(gameObject));
+                //AllCacheController.instance.pushBackItem(gameObject);
+                //Destroy(this.gameObject, 1);
                 SpawnMgr._instance.EnemyList.Remove(this.gameObject);
 
                 //this.GetComponent<CharacterController>().enabled = false;
@@ -110,6 +115,11 @@ public class ATKandDamage : MonoBehaviour
     }
     #endregion
 
+    IEnumerator pushBack(GameObject _gameObject)
+    {
+        yield return new WaitForSeconds(1f);
+        AllCacheController.instance.pushBackItem(_gameObject);
+    }
     #region 击杀奖励
 
     public virtual int ScoreAward()

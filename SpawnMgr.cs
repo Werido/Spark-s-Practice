@@ -11,19 +11,21 @@ public class SpawnMgr : MonoBehaviour
     public Spawn UnDeadMaster;
     public GameObject NextInterface;
     public List<GameObject> EnemyList = new List<GameObject>();
-
+    PlayerAtkAndDamage playerAtkAndDamage;
     void Awake()
     {
         _instance = this;
     }
 	void Start ()
 	{
-	    StartCoroutine(Spawn());
+        playerAtkAndDamage = GameObject.FindGameObjectWithTag(TagMgr.Player).GetComponent<PlayerAtkAndDamage>();
+        StartCoroutine(Spawn());
 	}
-	
-	void Update () {
-	
-	}
+
+    void Update()
+    {
+        Debug.LogWarning(playerAtkAndDamage.getScore);
+    }
 
     IEnumerator Spawn()
     {
@@ -79,12 +81,21 @@ public class SpawnMgr : MonoBehaviour
             EnemyList.Add(s.SpawnInit());
         }
 
-        //等待游戏结束
+
+        //等待游戏结束   TODO 此处判定条件改成计分判定制
         while (EnemyList.Count > 0)
         {
+
             yield return new WaitForSeconds(0.2f);
         }
+        GameObject[] enemy = GameObject.FindGameObjectsWithTag(TagMgr.SoulMonster);
+        for (int i =0;i<enemy.Length;i++)
+        {
+            GameObject.DestroyImmediate(enemy[i]);
+        }
+        GameObject.FindGameObjectsWithTag(TagMgr.SoulMonster);
         //FollowPlayer.instance().VictorSound();
+        AllCacheController.instance.discardAll();
         int temp = PlayerPrefs.GetInt("LevelPass");
         PlayerPrefs.SetInt("LevelPass",++temp);
         NextInterface.SetActive(true);

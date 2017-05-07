@@ -15,13 +15,14 @@ public class Bullet : MonoBehaviour
 	
     //匀速运动
 	void Update () {
-        transform.Translate(GameObject.FindGameObjectWithTag(TagMgr.Player).transform.forward* speed*Time.deltaTime);
+        transform.Translate(Vector3.forward* speed*Time.deltaTime);
     }
     #endregion
 
     #region 子弹伤害触发
     void OnTriggerEnter(Collider col)
     {
+        Debug.LogWarning("击中"+col.name);
         if (col.tag == TagMgr.SoulMonster||col.tag ==TagMgr.SoulBoss)
         {
             col.GetComponent<ATKandDamage>().TakeDamage(attack);

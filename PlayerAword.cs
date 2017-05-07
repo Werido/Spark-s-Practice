@@ -52,7 +52,8 @@ public class PlayerAword : MonoBehaviour
     //加速
     void changeMoveSpeed()
     {
-        PlayerMove._instance.speed += 1.5f;
+        if(PlayerMove._instance.speed<6)
+            PlayerMove._instance.speed += 1.5f;
     }
 
     //加血

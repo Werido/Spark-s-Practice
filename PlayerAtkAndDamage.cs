@@ -58,18 +58,34 @@ public class PlayerAtkAndDamage : ATKandDamage
     //判定最近的敌人
     GameObject RecentEnemy(float Distance)
     {
-        GameObject enemy = null;
         float distance = Distance;
-        foreach (GameObject go in SpawnMgr._instance.EnemyList)
+        float temp;
+        GameObject[] enemy = GameObject.FindGameObjectsWithTag(TagMgr.SoulMonster);
+        GameObject targetEnemy = null;
+        for (int i = 0; i < enemy.Length; i++)
         {
-            float temp = Vector3.Distance(transform.position, go.transform.position);
+            //GameObject.DestroyImmediate(enemy[i]);
+            temp = Vector3.Distance(transform.position, enemy[i].transform.position);
             if (temp < distance)
             {
-                enemy = go;
+                targetEnemy = enemy[i];
                 distance = temp;
             }
         }
-        return enemy;
+
+        return targetEnemy;
+        //GameObject enemy = null;
+        //float distance = Distance;
+        //foreach (GameObject go in SpawnMgr._instance.EnemyList)
+        //{
+        //    float temp = Vector3.Distance(transform.position, go.transform.position);
+        //    if (temp < distance)
+        //    {
+        //        enemy = go;
+        //        distance = temp;
+        //    }
+        //}
+        //return enemy;
     }
 
     //角色朝向调整
@@ -79,6 +95,7 @@ public class PlayerAtkAndDamage : ATKandDamage
     {
         if (enemy != null)
         {
+            Debug.LogWarning(enemy.name);
             Vector3 targetPos = enemy.transform.position;
             targetPos.y = transform.position.y;
             transform.LookAt(targetPos);
@@ -91,6 +108,7 @@ public class PlayerAtkAndDamage : ATKandDamage
     {
         if (enemy != null)
         {
+            Debug.LogWarning(enemy.name);
             Vector3 targetPos = enemy.transform.position;
             targetPos.y = transform.position.y;
             transform.LookAt(targetPos);
@@ -103,6 +121,7 @@ public class PlayerAtkAndDamage : ATKandDamage
 
     public void AttackA()
     {
+        Debug.LogWarning("AttackA");
         if (gun != null)
         {
             gun.attack = attackgun;
@@ -124,6 +143,7 @@ public class PlayerAtkAndDamage : ATKandDamage
 
     public void AttackB()
     {
+        Debug.LogWarning("AttackB");
         if(SwardClip!=null)
             AudioSource.PlayClipAtPoint(SwardClip, transform.position, 1f);
         GameObject enemy = RecentEnemy(attackDistance);
@@ -132,23 +152,36 @@ public class PlayerAtkAndDamage : ATKandDamage
 
     public void AttackRange()
     {
-        //AudioSource.PlayClipAtPoint(SwardClip, transform.position, 1f);
-        List<GameObject> enemyList = new List<GameObject>();
-        //遍历攻击范围内的敌人并造成伤害
-        foreach (GameObject go in SpawnMgr._instance.EnemyList)
+
+        GameObject[] enemy = GameObject.FindGameObjectsWithTag(TagMgr.SoulMonster);
+        for (int i = 0; i < enemy.Length; i++)
         {
-            float temp = Vector3.Distance(transform.position, go.transform.position);
+            //GameObject.DestroyImmediate(enemy[i]);
+            float temp = Vector3.Distance(transform.position, enemy[i].transform.position);
             if (temp < attackDistance)
             {
                 //将符合情况的敌人放进新列表而不是直接处理，否则遍历的数组就发生了变化
-                enemyList.Add(go);
+                //enemyList.Add(go);
+                enemy[i].GetComponent<ATKandDamage>().TakeDamage(skillDamage);
             }
         }
-        //不能遍历中修改或移除数据
-        foreach (GameObject go in enemyList)
-        {
-            go.GetComponent<ATKandDamage>().TakeDamage(skillDamage);
-        }
+        //AudioSource.PlayClipAtPoint(SwardClip, transform.position, 1f);
+        List<GameObject> enemyList = new List<GameObject>();
+        //遍历攻击范围内的敌人并造成伤害
+        //foreach (GameObject go in SpawnMgr._instance.EnemyList)
+        //{
+        //    float temp = Vector3.Distance(transform.position, go.transform.position);
+        //    if (temp < attackDistance)
+        //    {
+        //        //将符合情况的敌人放进新列表而不是直接处理，否则遍历的数组就发生了变化
+        //        enemyList.Add(go);
+        //    }
+        //}
+        ////不能遍历中修改或移除数据
+        //foreach (GameObject go in enemyList)
+        //{
+        //    go.GetComponent<ATKandDamage>().TakeDamage(skillDamage);
+        //}
     }
 
 
@@ -178,7 +211,8 @@ public class PlayerAtkAndDamage : ATKandDamage
             return;
         }
         setDeltaTime();
-        GameObject.Instantiate(Resources.Load("SkillEffect"), transform.position + Vector3.up, transform.rotation);
+        //GameObject skill = GameObject.Instantiate(Resources.Load("SkillEffect"), transform.position + Vector3.up, transform.rotation) as GameObject;
+        Destroy(GameObject.Instantiate(Resources.Load("SkillEffect"), transform.position + Vector3.up, transform.rotation) as GameObject,1f);
         AttackRange();
         deltaTime = skillCDTime;
 

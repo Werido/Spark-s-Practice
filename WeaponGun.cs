@@ -11,10 +11,20 @@ public class WeaponGun : MonoBehaviour
     //实例化子弹
     public void Shot()
     {
+        StartCoroutine(Spawn());
+    }
+
+
+
+
+
+    IEnumerator Spawn()
+    {
+        yield return new WaitForSeconds(1f);
         if (BulletPrefab != null)
         {
             GameObject go = GameObject.Instantiate(BulletPrefab, bulletPos.position, transform.root.rotation) as GameObject;
-            go.GetComponent<Bullet>().attack = attack;
+            //go.GetComponent<Bullet>().attack = attack;
         }
     }
 }
