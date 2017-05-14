@@ -16,7 +16,8 @@ public class UIAttack : MonoBehaviour
 
     #region 攻击事件处理初始化
     //为攻击按钮绑定监听方法
-    void Start()
+
+    public void init()
     {
         playerAtk = GameObject.FindGameObjectWithTag(TagMgr.Player).GetComponent<PlayerAtkAndDamage>();
         animator = GameObject.FindGameObjectWithTag(TagMgr.Player).GetComponent<Animator>();
@@ -30,7 +31,6 @@ public class UIAttack : MonoBehaviour
         GameObject Redattack = GameObject.Find("RedAttack");
         EventDelegate RedAttackEvent = new EventDelegate(this, "OnRedAttackClick");
         GameObject.Find("RedAttack").GetComponent<UIButton>().onClick.Add(RedAttackEvent);
-
     }
     #endregion
 

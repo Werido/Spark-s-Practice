@@ -22,11 +22,6 @@ public class SpawnMgr : MonoBehaviour
         StartCoroutine(Spawn());
 	}
 
-    void Update()
-    {
-        Debug.LogWarning(playerAtkAndDamage.getScore);
-    }
-
     IEnumerator Spawn()
     {
         ////第一波

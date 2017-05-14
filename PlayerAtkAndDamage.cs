@@ -95,7 +95,7 @@ public class PlayerAtkAndDamage : ATKandDamage
     {
         if (enemy != null)
         {
-            Debug.LogWarning(enemy.name);
+            //Debug.LogWarning(enemy.name);
             Vector3 targetPos = enemy.transform.position;
             targetPos.y = transform.position.y;
             transform.LookAt(targetPos);
@@ -166,7 +166,6 @@ public class PlayerAtkAndDamage : ATKandDamage
             }
         }
         //AudioSource.PlayClipAtPoint(SwardClip, transform.position, 1f);
-        List<GameObject> enemyList = new List<GameObject>();
         //遍历攻击范围内的敌人并造成伤害
         //foreach (GameObject go in SpawnMgr._instance.EnemyList)
         //{

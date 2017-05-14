@@ -35,7 +35,7 @@ public class LevelSelect : MonoBehaviour
         {
             PlayerPrefs.SetInt("LevelPass",1);
         }
-        Debug.LogWarning(PlayerPrefs.GetInt("LevelPass"));
+
         for (int i =0;i<PlayerPrefs.GetInt("LevelPass");i++)
         {
             LevelObjects[i].GetComponent<UISprite>().color = new Color(1, 1, 1);
@@ -64,10 +64,7 @@ public class LevelSelect : MonoBehaviour
     {
         levelIndex = 7;
     }
-    public void ButtonLevel6()
-    {
-        levelIndex = 8;
-    }
+
     #endregion
 
     //返回主菜单

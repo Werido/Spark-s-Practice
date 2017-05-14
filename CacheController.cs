@@ -85,7 +85,7 @@ public abstract class CacheController<T,Temp> :MonoBehaviour
             enableList.AddLast(_t);
             BeUseList.Remove(_t);
         }
-        Debug.LogWarning("已放回对象池");
+        //Debug.LogWarning("已放回对象池");
     }
 
     public abstract void discardItem(T _t);

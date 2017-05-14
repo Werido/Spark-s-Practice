@@ -6,27 +6,26 @@ public class FollowPlayer : MonoBehaviour
     private Transform player;
     public float speed = 2; //相机移动速度
     public AudioClip victorClip;
-    private static FollowPlayer _instance;
-    public static FollowPlayer instance()
+    public static FollowPlayer _instance;
+
+    void Awake()
     {
-        if (_instance == null)
-        {
-            _instance = new FollowPlayer();
-        }
-        return _instance;
+        _instance = this;
     }
 
-    void Start()
+    public void setTarPlayer()
     {
         player = GameObject.FindGameObjectWithTag(TagMgr.Player).transform;
     }
-
     public void VictorSound()
     {
-        AudioSource.PlayClipAtPoint(victorClip, transform.position, 100f);
+        if(victorClip!=null)
+            AudioSource.PlayClipAtPoint(victorClip, transform.position, 100f);
     }
     void Update()
     {
+        if (player == null)
+            return;
         //相机跟随
         Vector3 targetPos = player.position + new Vector3(3f, 5f, -5f);
         transform.position = Vector3.Lerp(transform.position,targetPos, speed*Time.deltaTime);

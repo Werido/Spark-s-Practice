@@ -21,9 +21,7 @@ public class Spawn : MonoBehaviour
 
     public GameObject SpawnInit()
     {
-
         prefab = AllCacheController.instance.popItem(type);
-        Debug.LogWarning(prefab == null);
         //启用并生成小地图标识
         prefab.SetActive(true);
         //prefab.GetComponent<EnemyIcon>().setIconActive();

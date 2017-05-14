@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour
     #region 子弹伤害触发
     void OnTriggerEnter(Collider col)
     {
-        Debug.LogWarning("击中"+col.name);
+        //Debug.LogWarning("击中"+col.name);
         if (col.tag == TagMgr.SoulMonster||col.tag ==TagMgr.SoulBoss)
         {
             col.GetComponent<ATKandDamage>().TakeDamage(attack);
