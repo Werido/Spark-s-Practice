@@ -33,6 +33,8 @@ public class MiniMap : MonoBehaviour
     
     public void removeIcon(Transform _go)
     {
+        if (_go == null)
+            return;
         NGUITools.Destroy(_go.gameObject);
     }
 }

@@ -121,7 +121,7 @@ public class PlayerAtkAndDamage : ATKandDamage
 
     public void AttackA()
     {
-        Debug.LogWarning("AttackA");
+        //根据是否有远程武器进行不同判定
         if (gun != null)
         {
             gun.attack = attackgun;
@@ -143,13 +143,13 @@ public class PlayerAtkAndDamage : ATKandDamage
 
     public void AttackB()
     {
-        Debug.LogWarning("AttackB");
         if(SwardClip!=null)
             AudioSource.PlayClipAtPoint(SwardClip, transform.position, 1f);
         GameObject enemy = RecentEnemy(attackDistance);
         Changedirection(enemy,attackB);
     }
 
+    //近身范围技
     public void AttackRange()
     {
 
@@ -204,11 +204,9 @@ public class PlayerAtkAndDamage : ATKandDamage
 
     private void Skill()
     {
+        //技能CD没完成则不响应
         if (deltaTime != 0)
-        {
-            Debug.LogWarning("技能冷却未完成，CD时间："+ deltaTime);
             return;
-        }
         setDeltaTime();
         //GameObject skill = GameObject.Instantiate(Resources.Load("SkillEffect"), transform.position + Vector3.up, transform.rotation) as GameObject;
         Destroy(GameObject.Instantiate(Resources.Load("SkillEffect"), transform.position + Vector3.up, transform.rotation) as GameObject,1f);

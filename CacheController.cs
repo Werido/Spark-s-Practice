@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public abstract class CacheController<T,Temp> :MonoBehaviour
+public abstract class CacheController<T,Temp>
 {
 
     private LinkedList<T> enableList;
@@ -57,7 +57,6 @@ public abstract class CacheController<T,Temp> :MonoBehaviour
         {
             BeUseList.AddLast(enableList.First.Value);
             enableList.RemoveFirst();
-            Debug.LogWarning(BeUseList.Last.Value == null);
             return BeUseList.Last.Value;
         }
         AllList.AddLast(createItem(_m_tTemp));

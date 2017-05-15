@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class GameOver : MonoBehaviour {
     public void GameAgain()
     {
-        SceneManager.LoadScene(LevelSelect.instance().LevelIndex);
+        SceneManager.LoadScene(LevelSelect._instance.LevelIndex);
     }
 
     public void ReturnHome()
@@ -15,9 +15,9 @@ public class GameOver : MonoBehaviour {
 
     public void Next()
     {
-        if (LevelSelect.instance().LevelIndex <= 7)
+        if (LevelSelect._instance.LevelIndex < 7)
         {
-            SceneManager.LoadScene(++LevelSelect.instance().LevelIndex);
+            SceneManager.LoadScene(++LevelSelect._instance.LevelIndex);
         }
     }
 }

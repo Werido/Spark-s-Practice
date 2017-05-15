@@ -8,8 +8,8 @@ public class SoulMoster : MonoBehaviour
     private SoulMonsterAtkAndDamage monsterAtkAndDamage;
     public Transform Player;
     public float attackDistance = 1;  //这个是攻击距离
-    //public float speed = 2.5f;  //移动速度
-   // private CharacterController cc;
+                                      //public float speed = 2.5f;  //移动速度
+                                      // private CharacterController cc;
     private Animator animator;
     public float attackTime = 3;   //攻击间隔时间
     private float attcktTimer = 4; //计时器
@@ -29,8 +29,8 @@ public class SoulMoster : MonoBehaviour
     }
 
     //战斗相关
-	void Update ()
-	{
+    void Update()
+    {
         //角色死亡后小怪停止运动
         if (playerAtkAndDamage.hp <= 0)
         {
@@ -43,12 +43,12 @@ public class SoulMoster : MonoBehaviour
         targetPos.y = transform.position.y;
         transform.LookAt(targetPos);
 
-	    float distance = Vector3.Distance(targetPos, transform.position);
+        float distance = Vector3.Distance(targetPos, transform.position);
 
         if (distance <= attackDistance)//在攻击距离之内
         {
             attcktTimer += Time.deltaTime;
-            if (attcktTimer>attackTime)//达到攻击事件
+            if (attcktTimer > attackTime)//达到攻击事件
             {
                 animator.SetTrigger("Attack");
                 monsterAtkAndDamage.AnimationAttack();
@@ -56,20 +56,20 @@ public class SoulMoster : MonoBehaviour
             }
             else
             {
-                animator.SetBool("Walk",false);
+                animator.SetBool("Walk", false);
             }
 
         }
-	    else//对目标进行跟踪
-	    {
+        else//对目标进行跟踪
+        {
             //Monster如果正在攻击时间，不允许移动  ，不同AI状态名字要统一，否则判定不过
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
             {
                 agent.SetDestination(Player.transform.position);
             }
-        animator.SetBool("Walk", true);
+            animator.SetBool("Walk", true);
             //保证每次移动到主角身边时都会立马进行攻击
             attcktTimer = 4;
         }
-	}
+    }
 }

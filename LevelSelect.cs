@@ -6,14 +6,11 @@ public class LevelSelect : MonoBehaviour
 {
     public GameObject[] LevelObjects;
     private static int levelIndex = 10;
-    private static LevelSelect _instance;
-    public static LevelSelect instance()
+    public static LevelSelect _instance;
+
+    void Awake()
     {
-        if (_instance == null)
-        {
-            _instance = new LevelSelect();
-        }
-        return _instance;
+        _instance = this;
     }
 
     //获取关卡信息
@@ -35,9 +32,11 @@ public class LevelSelect : MonoBehaviour
         {
             PlayerPrefs.SetInt("LevelPass",1);
         }
-
-        for (int i =0;i<PlayerPrefs.GetInt("LevelPass");i++)
+        int index = PlayerPrefs.GetInt("LevelPass") > 5 ? 5 : PlayerPrefs.GetInt("LevelPass");
+        for (int i =0;i< index; i++)
         {
+            if (LevelObjects[i] == null)
+                return;
             LevelObjects[i].GetComponent<UISprite>().color = new Color(1, 1, 1);
             LevelObjects[i].GetComponent<BoxCollider>().enabled = true;
             LevelObjects[i].transform.parent.FindChild("Forbid").GetComponent<UISprite>().enabled = false;

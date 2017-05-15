@@ -14,16 +14,38 @@ public class SpawnMgr : MonoBehaviour
     PlayerAtkAndDamage playerAtkAndDamage;
     void Awake()
     {
+
         _instance = this;
     }
 	void Start ()
 	{
         playerAtkAndDamage = GameObject.FindGameObjectWithTag(TagMgr.Player).GetComponent<PlayerAtkAndDamage>();
         StartCoroutine(Spawn());
-	}
+        StartCoroutine(checkOver());
+    }
+
+    IEnumerator checkOver()
+    {
+        while (playerAtkAndDamage.getScore < 300)
+        {
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        GameObject[] enemy = GameObject.FindGameObjectsWithTag(TagMgr.SoulMonster);
+        for (int i = 0; i < enemy.Length; i++)
+        {
+            GameObject.DestroyImmediate(enemy[i]);
+        }
+        GameObject.FindGameObjectsWithTag(TagMgr.SoulMonster);
+        FollowPlayer._instance.VictorSound();
+        AllCacheController.instance.discardAll();
+        PlayerPrefs.SetInt("LevelPass", Mathf.Max(PlayerPrefs.GetInt("LevelPass"), LevelSelect._instance.LevelIndex - 1));
+        NextInterface.SetActive(true);
+    }
 
     IEnumerator Spawn()
     {
+
         ////第一波
 
         //EnemyList.Add(UnDeadMaster.SpawnInit());
@@ -75,25 +97,6 @@ public class SpawnMgr : MonoBehaviour
         {
             EnemyList.Add(s.SpawnInit());
         }
-
-
-        //等待游戏结束   TODO 此处判定条件改成计分判定制
-        while (EnemyList.Count > 0)
-        {
-
-            yield return new WaitForSeconds(0.2f);
-        }
-        GameObject[] enemy = GameObject.FindGameObjectsWithTag(TagMgr.SoulMonster);
-        for (int i =0;i<enemy.Length;i++)
-        {
-            GameObject.DestroyImmediate(enemy[i]);
-        }
-        GameObject.FindGameObjectsWithTag(TagMgr.SoulMonster);
-        //FollowPlayer.instance().VictorSound();
-        AllCacheController.instance.discardAll();
-        int temp = PlayerPrefs.GetInt("LevelPass");
-        PlayerPrefs.SetInt("LevelPass",++temp);
-        NextInterface.SetActive(true);
     }
 }
   

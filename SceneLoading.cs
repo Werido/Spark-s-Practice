@@ -11,7 +11,7 @@ public class SceneLoading : MonoBehaviour {
 
     //开始预加载玩家选择的关卡资源
     void Start () {
-        StartCoroutine(LoadScene(LevelSelect.instance().LevelIndex));
+        StartCoroutine(LoadScene(LevelSelect._instance.LevelIndex));
         //预设加载完成后才设置
         mSlider.value = 0;
         SetLabelInfo(mSlider.GetComponent<UISlider>().value);
@@ -19,6 +19,8 @@ public class SceneLoading : MonoBehaviour {
 	
     //更新进度值
 	void LateUpdate () {
+        if (mSlider == null || async == null)
+            return;
         mSlider.value = async.progress;
         SetLabelInfo(mSlider.value);
     }

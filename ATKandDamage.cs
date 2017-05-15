@@ -24,7 +24,7 @@ public class ATKandDamage : MonoBehaviour
     private bool SoundIsPlay = false;
     private int hpTotal;
 
-    public int getScore { get { return Score; } }
+    public int getScore { get { return Score; }set { Score = value; } }
     public Animator _animator { get { return animator; } }
     public int hptotal { get { return hpTotal; } }
     //获取animator组件
