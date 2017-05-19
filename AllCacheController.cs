@@ -45,23 +45,18 @@ public class AllCacheController : MonoBehaviour {
     {
         if(_go == null)
             return;
+
         enemyType temp = _go.GetComponent<ATKandDamage>().type;
         if (cacheControllerDic.ContainsKey(temp))
-        {
             cacheControllerDic[temp].pushBackItem(_go);
-        }
         else
-        {
             Debug.LogError("不存在该Go对象对象池");
-        }
     }
 
     public void discardAll()
     {
         foreach (enemyType key in cacheControllerDic.Keys)
-        {
             cacheControllerDic[key].discard();
-        }
         Destroy(this);
     }
 }

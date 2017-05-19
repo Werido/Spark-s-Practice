@@ -26,10 +26,21 @@ public class SpawnMgr : MonoBehaviour
 
     IEnumerator checkOver()
     {
-        while (playerAtkAndDamage.getScore < 300)
+        int levelIndex = LevelSelect._instance.LevelIndex;
+        if (levelIndex < 7)
         {
-            yield return new WaitForSeconds(0.2f);
+            while (playerAtkAndDamage.getScore < 300 * (levelIndex - 2) * 0.9f)
+            {
+                yield return new WaitForSeconds(0.2f);
+            }
+        }else
+        {
+            while (playerAtkAndDamage.getScore < 100)
+            {
+                yield return new WaitForSeconds(0.2f);
+            }
         }
+
 
         GameObject[] enemy = GameObject.FindGameObjectsWithTag(TagMgr.SoulMonster);
         for (int i = 0; i < enemy.Length; i++)
@@ -94,6 +105,52 @@ public class SpawnMgr : MonoBehaviour
         }
         yield return new WaitForSeconds(0.6f);
         foreach (Spawn s in bossSpawnArray)
+        {
+            EnemyList.Add(s.SpawnInit());
+        }
+
+        //第四波
+        foreach (Spawn s in mosterSpawnArray)
+        {
+            EnemyList.Add(s.SpawnInit());
+        }
+
+        yield return new WaitForSeconds(0.6f);
+        foreach (Spawn s in mosterSpawnArray)
+        {
+            EnemyList.Add(s.SpawnInit());
+        }
+        yield return new WaitForSeconds(0.6f);
+        foreach (Spawn s in bossSpawnArray)
+        {
+            EnemyList.Add(s.SpawnInit());
+        }
+        foreach (Spawn s in mosterSpawnArray)
+        {
+            EnemyList.Add(s.SpawnInit());
+        }
+
+        //第五波
+        foreach (Spawn s in mosterSpawnArray)
+        {
+            EnemyList.Add(s.SpawnInit());
+        }
+
+        yield return new WaitForSeconds(0.6f);
+        foreach (Spawn s in mosterSpawnArray)
+        {
+            EnemyList.Add(s.SpawnInit());
+        }
+        yield return new WaitForSeconds(0.6f);
+        foreach (Spawn s in bossSpawnArray)
+        {
+            EnemyList.Add(s.SpawnInit());
+        }
+        foreach (Spawn s in mosterSpawnArray)
+        {
+            EnemyList.Add(s.SpawnInit());
+        }
+        foreach (Spawn s in mosterSpawnArray)
         {
             EnemyList.Add(s.SpawnInit());
         }

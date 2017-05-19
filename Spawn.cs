@@ -12,6 +12,7 @@ public enum enemyType
     SOULMONSET,
     SOULBOOS,
     AXEMASTER,
+    NONE,
 }
 
 public class Spawn : MonoBehaviour
@@ -21,6 +22,8 @@ public class Spawn : MonoBehaviour
 
     public GameObject SpawnInit()
     {
+        if (type == enemyType.NONE)
+            return null;
         prefab = AllCacheController.instance.popItem(type);
         //启用并生成小地图标识
         prefab.SetActive(true);

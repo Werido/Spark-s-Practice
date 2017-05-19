@@ -40,6 +40,10 @@ public class PlayerAtkAndDamage : ATKandDamage
             deltaTime = 0;
     }
 
+    public float getCdDelateTime()
+    {
+        return deltaTime / skillCDTime;
+    }
     //TODO 清除攻击缓存
     public void ResetTrigger()
     {
@@ -207,7 +211,7 @@ public class PlayerAtkAndDamage : ATKandDamage
         //技能CD没完成则不响应
         if (deltaTime != 0)
             return;
-        setDeltaTime();
+        //setDeltaTime();
         //GameObject skill = GameObject.Instantiate(Resources.Load("SkillEffect"), transform.position + Vector3.up, transform.rotation) as GameObject;
         Destroy(GameObject.Instantiate(Resources.Load("SkillEffect"), transform.position + Vector3.up, transform.rotation) as GameObject,1f);
         AttackRange();

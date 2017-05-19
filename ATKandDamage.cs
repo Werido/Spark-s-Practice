@@ -84,7 +84,7 @@ public class ATKandDamage : MonoBehaviour
             }
             animator.SetTrigger("Dead");
 
-            //针对Monster和Boss的操作 ，从敌人列表中移除，延迟销毁，防止控制器影响主角移动
+            //针对Monster和Boss的操作 ，从敌人列表中移除，返回对象池，防止控制器影响主角移动
             if (this.tag != TagMgr.Player)
             {
                 //奖励生成

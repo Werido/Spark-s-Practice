@@ -7,12 +7,18 @@ public class UIAttack : MonoBehaviour
     public GameObject normalAttack;
     public GameObject rangeAttack;
     public GameObject redAttack;
+    public UISprite cdSprite;
     PlayerAtkAndDamage playerAtk;
 
     private Animator animator;
     private bool isCanAttackB;
     private float cdTime = 0f;
 
+    //刷新CD
+    void Update()
+    {
+        cdSprite.fillAmount = playerAtk.getCdDelateTime();
+    }
 
     #region 攻击事件处理初始化
     //为攻击按钮绑定监听方法
